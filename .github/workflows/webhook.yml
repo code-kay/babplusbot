@@ -2,7 +2,7 @@ name: OCR and Webhook
 
 on:
     schedule:
-      - cron: '0 2 * * 1-5'
+      - cron: '0 2 * * 1-5' # 월~금 한국 시간 오전 11시에 실행
     push:
         branches:
         - main
@@ -22,14 +22,14 @@ jobs:
 
       - name: Install dependencies
         run: |
-            sudo apt-get update
-            sudo apt-get install -y wget unzip xvfb
-            wget -q https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-            sudo apt install -y ./google-chrome-stable_current_amd64.deb
-            pip install selenium webdriver-manager beautifulsoup4 requests  
+          sudo apt-get update
+          sudo apt-get install -y wget unzip xvfb
+          wget -q https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+          sudo apt install -y ./google-chrome-stable_current_amd64.deb
+          pip install selenium webdriver-manager beautifulsoup4 requests holidays
 
       - name: Run Selenium tests
-        env:  # Secrets를 환경 변수로 전달
+        env:
           WEBHOOK_URL: ${{ secrets.WEBHOOK_URL }}
           BLOG_URL: ${{ secrets.BLOG_URL }}
         run: |
