@@ -7,9 +7,6 @@ from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from webdriver_manager.chrome import ChromeDriverManager
-import pytesseract
-from PIL import Image
-from io import BytesIO
 
 # Chrome 옵션 설정
 chrome_options = Options()
@@ -50,18 +47,6 @@ if first_img and first_img.get('src'):
     img_url = first_img['src']
     print(f"이미지 URL: {img_url}")
     
-    # 이미지 URL에서 데이터 가져오기
-    img_response = requests.get(img_url)
-    if img_response.status_code != 200:
-        raise Exception(f"이미지를 가져오지 못했습니다. 상태 코드: {img_response.status_code}")
-    
-    # 메모리 내에서 이미지를 열기
-    image = Image.open(BytesIO(img_response.content))
-    
-    # Tesseract OCR로 텍스트 추출
-    text = pytesseract.image_to_string(image, lang='kor')  # 한국어 인식
-    print(f"추출된 텍스트: {text}")
-    
     # 웹훅으로 전송
     webhook_url = 'https://prod-21.southeastasia.logic.azure.com:443/workflows/4170e84816d5479b8561351ec691e162/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=w_kQ40iVvmJoPBIWK6Iqpk5THr6_TIhABj2HmjIsulQ'
     data = {
@@ -76,11 +61,8 @@ if first_img and first_img.get('src'):
                     "version": "1.2",
                     "body": [
                         {
-                            "type": "TextBlock",
-                            "weight": "Bolder",
-                            "size": "Large",
-                            "text": text,  # 추출된 텍스트를 여기 삽입
-                            "wrap": True
+                            "type": "Image",
+                            "url": img_url,
                         }
                     ]
                 }
@@ -89,11 +71,8 @@ if first_img and first_img.get('src'):
     }
     
     webhook_response = requests.post(webhook_url, json=data)
-    
-    if webhook_response.status_code == 200:
-        print('웹훅으로 텍스트를 성공적으로 전송했습니다.')
-    else:
-        print(f'웹훅 전송 실패: {webhook_response.status_code}')
+    print(f'웹훅 전송 상태 코드: {webhook_response.status_code}')
+
 else:
     print("첫 번째 이미지를 찾을 수 없습니다.")
 
