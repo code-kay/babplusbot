@@ -1,4 +1,4 @@
-name: OCR and Webhook
+name: 밥플러스 메뉴 알림봇
 
 on:
     schedule:
