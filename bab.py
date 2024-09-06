@@ -69,7 +69,6 @@ if first_img and first_img.get('src'):
                         {
                             "type": "Image",
                             "url": img_url,
-                            "size": "Large"
                         }
                     ]
                 }
