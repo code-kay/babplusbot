@@ -61,6 +61,11 @@ if first_img and first_img.get('src'):
                     "version": "1.2",
                     "body": [
                         {
+                            "type": "TextBlock",
+                            "text": "🍽 오늘의 밥 플러스 메뉴 🍽",
+                            "size": "Large"
+                        },
+                        {
                             "type": "Image",
                             "url": img_url,
                         }
