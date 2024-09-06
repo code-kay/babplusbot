@@ -6,7 +6,7 @@ on:
     push:
         branches:
         - main
-        
+
 jobs:
   run-selenium-tests:
     runs-on: ubuntu-latest
@@ -29,6 +29,9 @@ jobs:
             pip install selenium webdriver-manager beautifulsoup4 requests  
 
       - name: Run Selenium tests
+        env:  # Secrets를 환경 변수로 전달
+          WEBHOOK_URL: ${{ secrets.WEBHOOK_URL }}
+          BLOG_URL: ${{ secrets.BLOG_URL }}
         run: |
           Xvfb :99 &  # 가상 디스플레이 실행
           export DISPLAY=:99  # 디스플레이 설정
