@@ -63,7 +63,8 @@ if first_img and first_img.get('src'):
                         {
                             "type": "TextBlock",
                             "text": "🍽 오늘의 밥 플러스 메뉴 🍽",
-                            "size": "Large"
+                            "size": "Large",
+                            "weight": "bolder"
                         },
                         {
                             "type": "Image",
