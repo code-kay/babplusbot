@@ -2,7 +2,7 @@ name: OCR and Webhook
 
 on:
     schedule:
-      - cron: '0 6 * * 1-5' # 월~금 한국 시간 오후 3시에 실행
+        - cron: '18 6 * * 1-5'  # 월~금 한국 시간 오후 3시 18분에 실행
     push:
         branches:
         - main
