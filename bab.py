@@ -7,6 +7,7 @@ from PIL import Image
 from io import BytesIO
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.support import expected_conditions as EC
 from webdriver_manager.chrome import ChromeDriverManager
 
 
@@ -27,16 +28,24 @@ driver = webdriver.Chrome(service=service, options=chrome_options)
 url = 'https://blog.naver.com/babplus123/223112282256'
 driver.get(url)
 
-# 네이버 블로그 iframe에 접근
-iframe = driver.find_element(By.TAG_NAME, 'iframe')
+# 네이버 블로그 iframe 로딩 대기
+wait = WebDriverWait(driver, 10)
+iframe = wait.until(EC.presence_of_element_located((By.TAG_NAME, 'iframe')))
+
+# iframe으로 전환
 driver.switch_to.frame(iframe)
+
+# 페이지가 로드될 때까지 대기 후, 첫 번째 이미지가 있는 se-main-container 클래스 로딩 대기
+wait.until(EC.presence_of_element_located((By.CLASS_NAME, 'se-main-container')))
 
 # 페이지 소스 가져오기
 html = driver.page_source
 soup = BeautifulSoup(html, 'html.parser')
 
-# 첫 번째 이미지 가져오기
-first_img = soup.find('img')
+# se-main-container 클래스 내에서 첫 번째 이미지 찾기
+container = soup.find('div', class_='se-main-container')
+first_img = container.find('img') if container else None
+
 if first_img and first_img.get('src'):
     img_url = first_img['src']
     print(f"이미지 URL: {img_url}")
