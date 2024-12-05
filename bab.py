@@ -9,14 +9,14 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from webdriver_manager.chrome import ChromeDriverManager
 import holidays
-from datetime import date
+from datetime import date, timedelta
 
 kr_holidays = holidays.KR()
-today = date.today()
+today = date.today() + timedelta(days=1)
 
 # 오늘이 공휴일인지 확인
 if today in kr_holidays:
-    print(f"오늘은 공휴일입니다. ({kr_holidays.get(today)}) 작업을 중단합니다.")
+    print(f"내일은 공휴일입니다. ({kr_holidays.get(today)}) 작업을 중단합니다.")
 
 else:
     WEBHOOK_URL = os.getenv('WEBHOOK_URL')
@@ -73,7 +73,7 @@ else:
                         "body": [
                             {
                                 "type": "TextBlock",
-                                "text": "🍽 오늘의 밥 플러스 메뉴 🍽",
+                                "text": "🍽 내일의 밥 플러스 메뉴 🍽",
                                 "size": "Large",
                                 "weight": "bolder"
                             },
