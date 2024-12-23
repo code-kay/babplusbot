@@ -73,7 +73,7 @@ else:
                         "body": [
                             {
                                 "type": "TextBlock",
-                                "text": "🍽 내일의 밥 플러스 메뉴 🍽",
+                                "text": "🍽 다음 밥 플러스 메뉴 🍽",
                                 "size": "Large",
                                 "weight": "bolder"
                             },
@@ -86,7 +86,7 @@ else:
                 }
             ]
         }
-        
+
         webhook_response = requests.post(WEBHOOK_URL, json=data)
         print(f'웹훅 전송 상태 코드: {webhook_response.status_code}')
 
