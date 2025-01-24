@@ -37,28 +37,28 @@ else:
     # Selenium을 사용한 페이지 열기
     driver.get(BLOG_URL)
 
-    # 네이버 블로그 iframe 로딩 대기
+    # 페이지 로딩 대기
     wait = WebDriverWait(driver, 10)
-    iframe = wait.until(EC.presence_of_element_located((By.TAG_NAME, 'iframe')))
-
-    # iframe으로 전환
-    driver.switch_to.frame(iframe)
-
-    # 페이지가 로드될 때까지 대기 후, 첫 번째 이미지가 있는 se-main-container 클래스 로딩 대기
-    wait.until(EC.presence_of_element_located((By.CLASS_NAME, 'se-main-container')))
+    wait.until(EC.presence_of_element_located((By.CLASS_NAME, 'wrap_fit_thumb')))
 
     # 페이지 소스 가져오기
     html = driver.page_source
     soup = BeautifulSoup(html, 'html.parser')
 
-    # se-main-container 클래스 내에서 첫 번째 이미지 찾기
-    container = soup.find('div', class_='se-main-container')
-    first_img = container.find('img') if container else None
+    # wrap_fit_thumb 클래스명으로 되어있는 div 가져오기
+    div = soup.find('div', class_='wrap_fit_thumb')
 
-    if first_img and first_img.get('src'):
-        img_url = first_img['src']
+    # style 속성에서 배경 이미지 URL 추출
+    first_img = None
+    if div and div.get('style'):
+        match = re.search(r'url\("(.+?)"\)', div['style'])
+        if match:
+            first_img = match.group(1)
+
+    if first_img:
+        img_url = first_img
         print(f"이미지 URL: {img_url}")
-        
+
         # 웹훅으로 전송
         data = {
             "type": "message",
