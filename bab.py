@@ -75,7 +75,7 @@ else:
                         "body": [
                             {
                                 "type": "TextBlock",
-                                "text": "🍽 다음 밥 플러스 메뉴 🍽",
+                                "text": "🍽 오늘의 밥 플러스 메뉴 🍽",
                                 "size": "Large",
                                 "weight": "bolder"
                             },
@@ -85,6 +85,7 @@ else:
                             },
                             {
                                 "type": "ImageSet",
+                                "imageSize": "large",
                                 "images": [
                                     {"type": "Image", "url": url, "altText": "Image"} for url in other_images
                                 ]
