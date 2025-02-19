@@ -29,7 +29,18 @@ jobs:
           sudo apt install -y ./google-chrome-stable_current_amd64.deb
           pip install selenium webdriver-manager beautifulsoup4 requests holidays
 
+      - name: Run Selenium tests for Today Menu
+        if: github.event.schedule == '42 1 * * 1-5'
+        env:
+          WEBHOOK_URL: ${{ secrets.WEBHOOK_URL }}
+          BLOG_URL: ${{ secrets.BLOG_URL }}
+        run: |
+          Xvfb :99 &  # 가상 디스플레이 실행
+          export DISPLAY=:99  # 디스플레이 설정
+          python babToday.py  # 오늘 메뉴 스크립트 실행
+
       - name: Run Selenium tests for Tomorrow Menu
+        if: github.event.schedule == '52 5 * * 1-5'
         env:
           WEBHOOK_URL: ${{ secrets.WEBHOOK_URL }}
           BLOG_URL: ${{ secrets.BLOG_URL }}
