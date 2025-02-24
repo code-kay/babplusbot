@@ -30,7 +30,7 @@ jobs:
           pip install selenium webdriver-manager beautifulsoup4 requests holidays
 
       - name: Run Selenium tests for Today Menu
-        if: github.event.schedule == '32 1 * * 1-5'
+        if: github.event.schedule == '22 1 * * 1-5'
         env:
           WEBHOOK_URL: ${{ secrets.WEBHOOK_URL }}
           BLOG_URL: ${{ secrets.BLOG_URL }}
@@ -40,7 +40,7 @@ jobs:
           python babToday.py  # 오늘 메뉴 스크립트 실행
 
       - name: Run Selenium tests for Tomorrow Menu
-        if: github.event.schedule == '22 6 * * 1-5'
+        if: github.event.schedule == '55 6 * * 1-5'
         env:
           WEBHOOK_URL: ${{ secrets.WEBHOOK_URL }}
           BLOG_URL: ${{ secrets.BLOG_URL }}
